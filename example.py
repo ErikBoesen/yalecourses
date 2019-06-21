@@ -4,6 +4,7 @@ import os
 # "api" name can be whatever is most convenient for your program
 api = yalecourses.YaleCourses(os.environ['YALE_API_KEY'])
 
-print(api.courses('CPSC'))
-for course in api.courses():
-    print(f"{course.id}: {course.name}, {course.description}")
+courses = api.courses('CPSC')
+print('There are %d courses in this subject area' % len(courses))
+for course in courses:
+    print(f"{course.number}: {course.name}, {course.classpath}")
