@@ -18,7 +18,6 @@ class Course(dict):
         self.update(raw)
         self.update(self.__dict__)
 
-        print(raw.keys())
         self.c_section_status = raw['cSectionStatus']
         # the "class" field from the documentation is ignored because it seems useless and never actually appears.
         self.number = raw['courseNumber']
@@ -46,7 +45,6 @@ class Course(dict):
         self.subject_number = raw['subjectNumber']
         self.term_code = self._number(raw['termCode'])
         self.year, self.term = divmod(self.term_code, 10**2)
-
 
     @property
     def raw_description(self):
