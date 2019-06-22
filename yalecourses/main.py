@@ -50,6 +50,7 @@ class Course(dict):
 
 class YaleCourses:
     API_TARGET = 'https://gw.its.yale.edu/soa-gateway/course/webservice/index'
+    TERM_NAMES = ['spring', 'summer', 'fall']
 
     def __init__(self, api_key: str):
         self.api_key = api_key
@@ -86,6 +87,11 @@ class YaleCourses:
         if year is not None:
             if term is None:
                 raise ValueError('A term must be specified with a year.')
+            if type(term) == str and term.isalpha():
+                try:
+                    term = self.TERM_NAMES.index(term.lower()) + 1
+                except ValueError:
+                    raise ValueError(term + ' is not a recognized term label. Valid options: ' + str(self.TERM_NAMES))
             params['termCode'] = str(year * 100 + term)
         return [Course(raw) for raw in self.get(params)]
 
