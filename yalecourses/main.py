@@ -120,3 +120,18 @@ class YaleCourses:
         for course in courses:
             if course.number == number:
                 return course
+
+    @staticmethod
+    def is_course_code(self, identifier):
+        """
+        Check if a string could identify a course.
+        """
+        return any([char.isdigit() for char in query])
+
+    @staticmethod
+    def is_subject(self, identifier):
+        """
+        Check if a string could be a subject identifier.
+        :param identifier: string to check.
+        """
+        return not self.is_course_code(identifier)
