@@ -33,7 +33,7 @@ class Course(dict):
         self.instructors = raw['instructorList']
         self.instructor_upis = raw['instructorUPI']
         # TODO: give easily usable data on this, for example meets_monday boolean and storing times
-        self.meeting_pattern = raw['meetingPattern']
+        self.meeting_patterns = raw['meetingPattern']
         self.primary_course_number = raw['primXLst']
         self.school_code = raw['schoolCode']
         self.school_name = self.school_description = raw['schoolDescription']
