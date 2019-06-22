@@ -15,4 +15,4 @@ print(course.raw_description)
 
 # If you want more specificity
 course = api.course(subject='CPSC', number=201, year=2015, term=1)
-print(f'The {course.year} version of {course.code} was taught primarily by {course.instructors[0]}.')
+print(f'The {course.year} version of {course.code} was taught primarily by {course.instructors[0]} at {course.school_name}.')

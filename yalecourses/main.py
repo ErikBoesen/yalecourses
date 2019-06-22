@@ -29,7 +29,7 @@ class Course(dict):
         # TODO: give meaningful data on this
         self.meeting_pattern = raw['meetingPattern']
         self.primary_course_number = raw['primXLst']
-        self.crnschool_code = raw['schoolCode']
+        self.school_code = raw['schoolCode']
         self.school_name = self.school_description = raw['schoolDescription']
         self.secondary_course_numbers = raw['scndXLst']
         self.section_number = self._number(raw['sectionNumber'])
