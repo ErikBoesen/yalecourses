@@ -9,12 +9,6 @@ class Course(dict):
         return int(raw)
 
     def __init__(self, raw):
-        """
-        for key in raw:
-            # Vet out values that are randomly empty arrays
-            if raw[key] == []:
-                raw[key] = None
-        """
         self.update(raw)
         self.update(self.__dict__)
 
@@ -36,8 +30,7 @@ class Course(dict):
         self.meeting_pattern = raw['meetingPattern']
         self.primary_course_number = raw['primXLst']
         self.crnschool_code = raw['schoolCode']
-        self.school_description = raw['schoolDescription']
-        self.school_name = self.school_description
+        self.school_name = self.school_description = raw['schoolDescription']
         self.secondary_course_numbers = raw['scndXLst']
         self.section_number = self._number(raw['sectionNumber'])
         self.short_title = raw['shortTitle']
@@ -49,6 +42,11 @@ class Course(dict):
     @property
     def raw_description(self):
         return re.sub('<[^<]+?>', '', self.description)
+
+    @property
+    def code(self):
+        return self.subject_code + str(self.course_number)
+
 
 class YaleCourses:
     API_TARGET = 'https://gw.its.yale.edu/soa-gateway/course/webservice/index'
