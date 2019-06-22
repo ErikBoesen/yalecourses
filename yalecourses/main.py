@@ -12,7 +12,13 @@ class Course(dict):
         self.update(raw)
         self.update(self.__dict__)
 
-        self.c_section_status = raw['cSectionStatus']
+        self.section_status = raw['cSectionStatus']
+        self.active = self.section_status == 'A'
+        self.moved_to_spring = self.section_status == 'B'
+        self.cancelled = self.section_status == 'C'
+        self.moved_to_fall = self.section_status == 'D'
+        self.closed = self.section_status == 'E'
+        self.number_changed = self.section_status == 'N'
         # the "class" field from the documentation is ignored because it seems useless and never actually appears.
         self.number = self._number(raw['courseNumber'])
         self.name = self.title = raw['courseTitle']
@@ -26,7 +32,7 @@ class Course(dict):
         self.final_exam = self._number(raw['finalExam'])
         self.instructors = raw['instructorList']
         self.instructor_upis = raw['instructorUPI']
-        # TODO: give meaningful data on this
+        # TODO: give easily usable data on this, for example meets_monday boolean and storing times
         self.meeting_pattern = raw['meetingPattern']
         self.primary_course_number = raw['primXLst']
         self.school_code = raw['schoolCode']
