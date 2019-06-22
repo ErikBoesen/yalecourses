@@ -14,7 +14,7 @@ class Course(dict):
 
         self.c_section_status = raw['cSectionStatus']
         # the "class" field from the documentation is ignored because it seems useless and never actually appears.
-        self.number = raw['courseNumber']
+        self.number = self._number(raw['courseNumber'])
         self.name = self.title = raw['courseTitle']
         self.crn = self._number(raw['crn'])
         self.course_registration_number = self.crn
@@ -24,8 +24,8 @@ class Course(dict):
         # TODO: give an easy way to programatically say what designation this is in plain English
         self.distributional_requirement_designation = raw['distDesg']
         self.final_exam = self._number(raw['finalExam'])
-        self.instructor_list = raw['instructorList']
-        self.instructor_upi = raw['instructorUPI']
+        self.instructors = raw['instructorList']
+        self.instructor_upis = raw['instructorUPI']
         # TODO: give meaningful data on this
         self.meeting_pattern = raw['meetingPattern']
         self.primary_course_number = raw['primXLst']
@@ -45,7 +45,7 @@ class Course(dict):
 
     @property
     def code(self):
-        return self.subject_code + str(self.course_number)
+        return self.subject_code + str(self.number)
 
 
 class YaleCourses:
@@ -86,10 +86,10 @@ class YaleCourses:
         if year is not None:
             if term is None:
                 raise ValueError('A term must be specified with a year.')
-            params['termCode'] = str(year) + str(term)
+            params['termCode'] = str(year * 100 + term)
         return [Course(raw) for raw in self.get(params)]
 
-    def course(self, code: str = None, subject: str = None, course_number: int = None, year: int = None, term: int = None):
+    def course(self, code: str = None, subject: str = None, number: int = None, year: int = None, term: int = None):
         """
         Get data for a single course.
         You must specify either code or subject AND number.
@@ -97,12 +97,12 @@ class YaleCourses:
         :param subject: string identifier of course subject, eg. CPSC.
         :param course_number: number of course, eg. 201.
         """
-        if code is None and (subject is None or course_number is None):
+        if code is None and (subject is None or number is None):
             raise ValueError('Either a code or subject AND number must be passed.')
         if code:
             subject = ''.join([char for char in code if char.isalpha()])
-            course_number = int(''.join([char for char in code if char.isdigit()]))
+            number = int(''.join([char for char in code if char.isdigit()]))
         courses = self.courses(subject, year, term)
         for course in courses:
-            if course.number = course_number:
+            if course.number == number:
                 return course
