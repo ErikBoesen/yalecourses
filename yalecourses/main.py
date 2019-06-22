@@ -71,7 +71,7 @@ class YaleCourses:
             # TODO: Can we be more helpful?
             raise Exception('API request failed. Data returned: ' + request.text)
 
-    def courses(self, subject: str, year: int = None, term: int = None) -> Course:
+    def courses(self, subject: str, year: int = None, term: int = None):
         """
         Generate a request to the API and fetch data on a desired set of courses.
         There are many options for how to identify a course through your parameters.
@@ -81,10 +81,28 @@ class YaleCourses:
                      This value changes to the next term on January 3rd and June 1st.
         """
         params = {
-            'subjectCode': subject,
+            'subjectCode': subject.upper(),
         }
         if year is not None:
             if term is None:
-                raise Exception('A term must be specified with a year.')
+                raise ValueError('A term must be specified with a year.')
             params['termCode'] = str(year) + str(term)
         return [Course(raw) for raw in self.get(params)]
+
+    def course(self, code: str = None, subject: str = None, course_number: int = None, year: int = None, term: int = None):
+        """
+        Get data for a single course.
+        You must specify either code or subject AND number.
+        :param code: full code of a course, eg. CPSC201.
+        :param subject: string identifier of course subject, eg. CPSC.
+        :param course_number: number of course, eg. 201.
+        """
+        if code is None and (subject is None or course_number is None):
+            raise ValueError('Either a code or subject AND number must be passed.')
+        if code:
+            subject = ''.join([char for char in code if char.isalpha()])
+            course_number = int(''.join([char for char in code if char.isdigit()]))
+        courses = self.courses(subject, year, term)
+        for course in courses:
+            if course.number = course_number:
+                return course
