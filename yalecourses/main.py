@@ -125,6 +125,8 @@ class YaleCourses:
     def is_course_code(self, identifier):
         """
         Check if a string could identify a course.
+        Useful for example if trying to figure out whether a user has entered a course code or a subject area.
+        :param identifier: string to check.
         """
         return any([char.isdigit() for char in query])
 
@@ -132,6 +134,7 @@ class YaleCourses:
     def is_subject(self, identifier):
         """
         Check if a string could be a subject identifier.
+        Useful for example if trying to figure out whether a user has entered a course code or a subject area.
         :param identifier: string to check.
         """
         return not self.is_course_code(identifier)
