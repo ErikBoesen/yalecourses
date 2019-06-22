@@ -20,7 +20,7 @@ class Course(dict):
         self.closed = self.section_status == 'E'
         self.number_changed = self.section_status == 'N'
         # the "class" field from the documentation is ignored because it seems useless and never actually appears.
-        self.number = self._number(raw['courseNumber'])
+        self.number = raw['courseNumber']
         self.name = self.title = raw['courseTitle']
         self.crn = self._number(raw['crn'])
         self.course_registration_number = self.crn
@@ -101,7 +101,7 @@ class YaleCourses:
             params['termCode'] = str(year * 100 + term)
         return [Course(raw) for raw in self.get(params)]
 
-    def course(self, code: str = None, subject: str = None, number: int = None, year: int = None, term: int = None):
+    def course(self, code: str = None, subject: str = None, number: str = None, year: int = None, term: int = None):
         """
         Get data for a single course.
         You must specify either code or subject AND number.
@@ -112,8 +112,10 @@ class YaleCourses:
         if code is None and (subject is None or number is None):
             raise ValueError('Either a code or subject AND number must be passed.')
         if code:
-            subject = ''.join([char for char in code if not char.isdigit()])
-            number = int(''.join([char for char in code if char.isdigit()]))
+            # Break off subject name from start
+            code = re.split('(\d+)', code)
+            subject = code.pop(0)
+            number = ''.join(code)
         courses = self.courses(subject, year, term)
         for course in courses:
             if course.number == number:
