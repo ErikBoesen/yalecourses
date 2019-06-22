@@ -112,7 +112,7 @@ class YaleCourses:
         if code is None and (subject is None or number is None):
             raise ValueError('Either a code or subject AND number must be passed.')
         if code:
-            subject = ''.join([char for char in code if char.isalpha() or char == '&'])
+            subject = ''.join([char for char in code if not char.isdigit()])
             number = int(''.join([char for char in code if char.isdigit()]))
         courses = self.courses(subject, year, term)
         for course in courses:
