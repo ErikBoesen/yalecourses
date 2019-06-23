@@ -47,7 +47,7 @@ class Course(dict):
 
     @property
     def raw_description(self):
-        return re.sub('<[^<]+?>', '', self.description)
+        return re.sub('<[^<]+?>', '', self.description).strip()
 
     @property
     def code(self):
@@ -121,20 +121,18 @@ class YaleCourses:
             if course.number == number:
                 return course
 
-    @staticmethod
-    def is_course_code(self, identifier):
-        """
-        Check if a string could identify a course.
-        Useful for example if trying to figure out whether a user has entered a course code or a subject area.
-        :param identifier: string to check.
-        """
-        return any([char.isdigit() for char in query])
+def is_course(identifier):
+    """
+    Check if a string could identify a course.
+    Useful for example if trying to figure out whether a user has entered a course code or a subject area.
+    :param identifier: string to check.
+    """
+    return any([char.isdigit() for char in identifier])
 
-    @staticmethod
-    def is_subject(self, identifier):
-        """
-        Check if a string could be a subject identifier.
-        Useful for example if trying to figure out whether a user has entered a course code or a subject area.
-        :param identifier: string to check.
-        """
-        return not self.is_course_code(identifier)
+def is_subject(identifier):
+    """
+    Check if a string could be a subject identifier.
+    Useful for example if trying to figure out whether a user has entered a course code or a subject area.
+    :param identifier: string to check.
+    """
+    return not is_course(identifier)
