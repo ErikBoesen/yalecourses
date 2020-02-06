@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name='yalecourses',
-      version='0.1.4',
+      version='0.1.5',
       description='Library for fetching data from the Yale Courses API.',
       url='https://github.com/ErikBoesen/yalecourses',
       author='Erik Boesen',
