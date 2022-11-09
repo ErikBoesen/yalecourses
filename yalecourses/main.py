@@ -55,7 +55,7 @@ class Course(dict):
 
 
 class YaleCourses:
-    API_TARGET = 'https://gw.its.yale.edu/soa-gateway/course/webservice/index'
+    API_TARGET = 'https://gw.its.yale.edu/soa-gateway/courses/webservice/v3/index'
     TERM_NAMES = ['spring', 'summer', 'fall']
 
     def __init__(self, api_key: str):
